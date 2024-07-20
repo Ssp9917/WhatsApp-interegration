@@ -1,15 +1,20 @@
 const express = require('express');
 const twilio = require('twilio');
 const cors = require('cors')
+const dotenv = require('dotenv')
 
 const app = express();
-const accountSid = 'AC34523b4fc118be987ae0704642099a3f'; // Your Account SID from www.twilio.com/console
-const authToken = 'c16013ecbf909afe3a1c2c41f843f4b9';   // Your Auth Token from www.twilio.com/console
+app.use(express.json());
+app.use(cors())
+app.use(dotenv.config())
+
+
+const accountSid = process.env.ACCOUNTSID; // Your Account SID from www.twilio.com/console
+const authToken = process.env.AUTHTOKEN;   // Your Auth Token from www.twilio.com/console
 
 const client = new twilio(accountSid, authToken);
 
-app.use(express.json());
-app.use(cors())
+
 
 app.post('/send-message', async (req, res) => {
     const { to, messageBody } = req.body;
